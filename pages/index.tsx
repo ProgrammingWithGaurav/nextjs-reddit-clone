@@ -5,8 +5,10 @@ import CreatePost from "../components/feed/CreatePost";
 import About from "../components/community/About";
 import Feed from "../components/feed/index";
 import useSWR from "swr";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Login from "../components/Login";
+import {RedditContext} from '../context/RedditContext';
+import {supabase} from '../services/supabaseClient';
 
 const style = {
   wrapper: `flex min-h-screen flex-col bg-black text-white`,
@@ -16,19 +18,34 @@ const style = {
 };
 
 const Home: NextPage = () => {
+  const {currentUser, fetcher} = useContext(RedditContext);
   const [myPosts, setMyPosts] = useState([]);
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const { data, error } = useSWR("/api/get-posts", fetcher, {
     refreshInterval: 200,
   });
+
+  const saveAndUpdateUser = async () => {
+    if(!currentUser) return;
+
+    await supabase.from('users').upsert({
+      email: currentUser.user_metadata.email,
+      name: currentUser.user_metadata.full_name,
+      profileImage: currentUser.user_metadata.avatar_url
+    }, {onConflict: 'email'} 
+    )
+  }
 
   useEffect(() => {
     if (!data) return;
     setMyPosts(data.data);
   }, [data]);
   console.log(data);
-  return <>{"" ? <HomePage myPosts={myPosts} /> : <Login />}</>;
+  
+  useEffect(() => {
+    saveAndUpdateUser();
+  }, [currentUser]);
+  return <>{currentUser ? <HomePage myPosts={myPosts} /> : <Login />}</>;
 };
 
 const HomePage = ({myPosts}) => {

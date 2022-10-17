@@ -1,6 +1,6 @@
 import {supabase} from '../services/supabaseClient';
 import Loading from './Loading';
-import {useState } from 'react';
+import {useEffect, useState } from 'react';
 
 const style = {
     wrapper: 'flex min-h-screen flex-col items-center justify-center space-y-2',
@@ -9,12 +9,12 @@ const style = {
 }
 
 const Login = () => {
+
     const signInWithGoogle = async () => {
         try {
-            const {user} = await supabase.auth.signUp({
-                provider: 'google',
-            })
-            console.log(user)
+         await supabase.auth.signIn({
+                provider: 'google'
+         })
         } catch(error){
             console.log(error)
         }

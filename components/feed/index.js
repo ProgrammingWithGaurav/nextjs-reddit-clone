@@ -8,7 +8,7 @@ const style = {
 const Feed = ({posts}) => {
     return(
         <div className={style.wrapper}>
-        {posts.map((post, id) => (
+        {posts && posts.map((post, id) => (
             <Post {...post} key={id}/>
         ))}
         </div>

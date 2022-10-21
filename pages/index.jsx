@@ -8,6 +8,7 @@ import Login from "../components/Login";
 import { onSnapshot, orderBy, query, collection } from "firebase/firestore";
 import {RedditContext} from '../context/RedditContext';
 import { auth, db } from "../firebase";
+import Head from "next/head";
 
 const style = {
   wrapper: `flex min-h-screen flex-col bg-black text-white`,
@@ -41,6 +42,11 @@ const Home = () => {
 
 const HomePage = ({myPosts}) => {
   return (
+    <div>
+    <Head>
+  <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/128/3670/3670226.png" />
+        <title>Reddit 2.0</title>
+    </Head>
     <div className={style.wrapper}>
       <Header />
       <Banner />
@@ -53,6 +59,7 @@ const HomePage = ({myPosts}) => {
           <About />
         </div>
       </main>
+    </div>
     </div>
   );
 };

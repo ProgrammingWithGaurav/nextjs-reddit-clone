@@ -1,24 +1,19 @@
 import { createContext, useState, useEffect } from "react";
-import {supabase} from '../services/supabaseClient';
 
 export const RedditContext = createContext()
 
 export const RedditProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  
+    const [selectedPost, setSelectedPost] = useState(null);
+      
     useEffect(() =>{
-        const {user} = supabase.auth.session() || {user: null};
+        const user = ''
         setCurrentUser(user);
 
-        supabase.auth.onAuthStateChange((_event, authSession) => {
-            setCurrentUser(authSession.user)
-        })
      }, [])
 
     return(
-        <RedditContext.Provider value={{currentUser, fetcher}}>{children}</RedditContext.Provider>
+        <RedditContext.Provider value={{currentUser, selectedPost, setSelectedPost}}>{children}</RedditContext.Provider>
             
     )
     }

@@ -1,14 +1,13 @@
-import type { NextPage } from "next";
 import Header from "../components/header";
 import Banner from "../components/community/Banner";
 import CreatePost from "../components/feed/CreatePost";
 import About from "../components/community/About";
 import Feed from "../components/feed/index";
-import useSWR from "swr";
 import { useContext, useEffect, useState } from "react";
 import Login from "../components/Login";
+import { onSnapshot, orderBy, query, collection } from "firebase/firestore";
 import {RedditContext} from '../context/RedditContext';
-import {supabase} from '../services/supabaseClient';
+import { auth, db } from "../firebase";
 
 const style = {
   wrapper: `flex min-h-screen flex-col bg-black text-white`,
@@ -17,35 +16,27 @@ const style = {
   infoContainer: `hidden w-1/3 lg:block`,
 };
 
-const Home: NextPage = () => {
+const Home = () => {
   const {currentUser, fetcher} = useContext(RedditContext);
   const [myPosts, setMyPosts] = useState([]);
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "reddit_posts"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => {
+          setMyPosts(snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          })));
+        }
+      ),
+    [db]
+  );
 
-  const { data, error } = useSWR("/api/get-posts", fetcher, {
-    refreshInterval: 200,
-  });
-
-  const saveAndUpdateUser = async () => {
-    if(!currentUser) return;
-
-    await supabase.from('users').upsert({
-      email: currentUser.user_metadata.email,
-      name: currentUser.user_metadata.full_name,
-      profileImage: currentUser.user_metadata.avatar_url
-    }, {onConflict: 'email'} 
-    )
-  }
-
-  useEffect(() => {
-    if (!data) return;
-    setMyPosts(data.data);
-  }, [data]);
-  console.log(data);
-  
-  useEffect(() => {
-    saveAndUpdateUser();
-  }, [currentUser]);
-  return <>{currentUser ? <HomePage myPosts={myPosts} /> : <Login />}</>;
+  return <>{ true ? <HomePage myPosts={myPosts} /> : <Login />}</>;
 };
 
 const HomePage = ({myPosts}) => {

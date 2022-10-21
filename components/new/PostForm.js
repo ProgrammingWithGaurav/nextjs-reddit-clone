@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {supabase} from '../../services/supabaseClient';
 import Loading from "../Loading";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const style = {
   wrapper: "flex flex-col space-y-6",
@@ -15,21 +16,24 @@ const style = {
 
 const PostForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const router = useRouter();
   const createPost = async (event) => {
     event.preventDefault();
 
     try {
       setIsLoading(true);
-      await supabase.from("feed").insert([
-        {
-          author: "author",
-          title,
-          content,
-        },
-      ]);
+      const docRef = await addDoc(collection(db, "reddit_posts"), {
+        title,
+        content,
+        upvotes: 0,
+        downvotes: 0,
+        author: "Gaurav",
+        timestamp: serverTimestamp(),
+      });
+      console.log("Document written with ID: ", docRef.id);
+      addDoc;
     } catch (error) {
       console.log(error);
     } finally {
@@ -43,7 +47,13 @@ const PostForm = () => {
       <h1 className={style.title}>Create a Post</h1>
 
       <div className="flex flex-col space-y-2 rounded bg-[#1a1a1b]  p-4">
-        <input value={title} onChange={event => setTitle(event.currentTarget.value)} className={style.input} type="text" placeholder="Title" />
+        <input
+          value={title}
+          onChange={(event) => setTitle(event.currentTarget.value)}
+          className={style.input}
+          type="text"
+          placeholder="Title"
+        />
         <textarea
           className={style.input}
           placeholder="Text (required)"
@@ -52,11 +62,13 @@ const PostForm = () => {
           col="30"
           rows="10"
           value={content}
-          onChange={event => setContent(event.currentTarget.value)}
+          onChange={(event) => setContent(event.currentTarget.value)}
         />
 
         <div className={style.postBtnContainer}>
-          <button onClick={createPost} className={style.postBtn}>Post</button>
+          <button onClick={createPost} className={style.postBtn}>
+            Post
+          </button>
         </div>
       </div>
     </div>

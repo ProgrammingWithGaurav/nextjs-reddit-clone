@@ -49,12 +49,15 @@ const Comments = ({ id }) => {
       ),
     [db]
   );
+
+  
   return (
     <div>
-      <h1>{comments && comments.length === 1 ? "Comment" : "Comments"}</h1>
-      <div className={style.wrapper}>
+      <h1>{comments && comments.length === 0 ? 'No Comment': `Comments (${comments.length})`}</h1>
+
       {comments &&
         comments.map((comment, id) => (
+      <div className={style.wrapper}>
           <div className={style.commentContainer} >
           <div className={style.postInfoContainer} key={id}>
             <div className={style.profileImageContainer}>
@@ -91,8 +94,8 @@ const Comments = ({ id }) => {
               <span className={style.icon}>Follow</span>
           </div>
           </div>
-        ))}
         </div>
+        ))}
     </div>
   );
 };

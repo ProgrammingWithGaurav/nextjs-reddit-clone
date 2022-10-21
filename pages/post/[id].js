@@ -5,6 +5,7 @@ import Header from "../../components/header";
 import Comments from "../../components/commentSection/Comments";
 import { db } from "../../firebase";
 import { onSnapshot, orderBy, query, collection ,doc, getDoc} from "firebase/firestore";
+import SaveComment from '../../components/commentSection/SaveComment';
 
 const style = {
   wrapper: "flex min-h-screen flex-col bg-black text-white",
@@ -32,7 +33,7 @@ const PostView = () => {
       <div className={style.container}>
         <div className={style.containerWrapper}>
           <Post {...data}/>
-
+          <SaveComment id={id && id.id} />
           <Comments id={id && id.id} />
         </div>
       </div>

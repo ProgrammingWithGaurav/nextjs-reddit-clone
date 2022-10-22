@@ -3,13 +3,13 @@ import { getFirestore } from "firebase/firestore";
 import {GoogleAuthProvider, initializeAuth} from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAvOvTyyzilOxnPLD8UbfqWUI5bxjzSLOI",
-  authDomain: "react-apps-1abca.firebaseapp.com",
-  projectId: "react-apps-1abca",
-  storageBucket: "react-apps-1abca.appspot.com",
-  messagingSenderId: "54426027347",
-  appId: "1:54426027347:web:e729acaea155ecf6e0cda6",
-  measurementId: "G-G5G1TDLJTP",
+  apiKey: "AIzaSyCn_AIoIGDpuoROIe3Ba8li33heu4FQ0Rw",
+  authDomain: "nextjsapps-366215.firebaseapp.com",
+  projectId: "nextjsapps-366215",
+  storageBucket: "nextjsapps-366215.appspot.com",
+  messagingSenderId: "895482855029",
+  appId: "1:895482855029:web:4aeffc1b8c74ac057d823c",
+  measurementId: "G-EZQJW34W4D"
 };
 
 // Initialize Firebase

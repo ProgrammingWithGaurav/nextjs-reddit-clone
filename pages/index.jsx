@@ -3,11 +3,10 @@ import Banner from "../components/community/Banner";
 import CreatePost from "../components/feed/CreatePost";
 import About from "../components/community/About";
 import Feed from "../components/feed/index";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "../components/Login";
 import { onSnapshot, orderBy, query, collection } from "firebase/firestore";
-import {RedditContext} from '../context/RedditContext';
-import { auth, db } from "../firebase";
+import {  db } from "../firebase";
 import Head from "next/head";
 
 const style = {
@@ -18,7 +17,6 @@ const style = {
 };
 
 const Home = () => {
-  const {currentUser, fetcher} = useContext(RedditContext);
   const [myPosts, setMyPosts] = useState([]);
   useEffect(
     () =>

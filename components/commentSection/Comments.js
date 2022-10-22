@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
@@ -47,7 +47,7 @@ const Comments = ({ id }) => {
             }))
           )
       ),
-    [db]
+    [id]
   );
 
   
@@ -57,7 +57,7 @@ const Comments = ({ id }) => {
 
       {comments &&
         comments.map((comment, id) => (
-      <div className={style.wrapper}>
+      <div className={style.wrapper} key={id}>
           <div className={style.commentContainer} >
           <div className={style.postInfoContainer} key={id}>
             <div className={style.profileImageContainer}>
@@ -65,6 +65,7 @@ const Comments = ({ id }) => {
                 src={comment.profileImage}
                 className={style.profileImage}
                 layout="fill"
+                alt=''
               />
             </div>
             <span>{comment.author}</span>

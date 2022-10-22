@@ -4,7 +4,7 @@ const style = {
   wrapper:
     'flex flex-col space-y-2 divide-y divide-[#343536] rounded border border-[#343536] bg-[#1a1a1b] p-4 text-gray-300',
   profileInfoContainer: 'flex items-center space-x-4 ',
-  profilePicContainer: `relative h-12 w-12`,
+  profilePicContainer: 'relative h-12 w-12',
   profilePic: 'object-contain',
   aboutContent: 'py-2 text-sm',
   statsWrapper: 'flex items-center space-x-16',

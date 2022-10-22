@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 const style = {
   profilePic: "h-4 w-4 rounded-full",
   wrapper: "flex items-center space-x-1 text-xs text[#818284]",
@@ -10,9 +12,10 @@ const Info = ({author}) => {
   return (
     <div className={style.wrapper}>
       <div className={style.profilePicContainer}>
-        <img
+        <Image
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPl-XNdKphblRrGKXGp5tNX5maGQeNvFX7gQ&usqp=CAU"
           className={style.profilePic}
+          alt=''
         />
       </div>
       <div className={style.tag}>r/cleverprogrammer</div>
